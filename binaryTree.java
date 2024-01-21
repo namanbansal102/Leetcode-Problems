@@ -20,28 +20,28 @@ public class binaryTree {
         newNode.right=buildTree(arr);
         return newNode;
     }
-    
-    public boolean pathSum(Node curr,int targetSum){
-        // int arr[]={1,2,-1,-1,3,-1,-1};
-        if(curr==null)return null;
-        if (curr==null && targetSum==0 ) {
-            return true;
+    static int total=0;
+    public void sumrootToLeafNodes(Node curr,int val){
+        if (curr==null) {
+            System.out.println("Curr=null");
+            return;
         }
-        pathSum(curr.left,targetSum-curr.data);
-        pathSum(curr.right,targetSum-curr.data);
-        return false;
-        
+        val=val*10+curr.data;
+        if (curr.left==null && curr.right==null) {
+            total+=val;
+            return;
+        }
+        sumrootToLeafNodes(curr.left,val);
+        sumrootToLeafNodes(curr.right,val);
+
     }
     public static void main(String[] args) {
         System.out.println("Binary Tree Data Structure");
         binaryTree b1=new binaryTree();
-        // int arr[]={1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
-        int arr[]={1,2,3,-1,-1,-1,4,-1,-1};
+        int arr[]={4,9,5,-1,-1,1,-1,-1,0,-1,-1};
+        // int arr[]={1,2,-1,-1,3,-1,-1};
         Node c=b1.buildTree(arr);
-        int targetSum=6;
-        int totSum=b1.pathSum(c,targetSum);
-        System.out.println(totSum);
-        // System.out.println(c.data);
-
+        b1.sumrootToLeafNodes(c, 0);
+        System.out.println(b1.total);
     }
 }

@@ -56,16 +56,23 @@ public class graph {
                         // Adding Destination Element To Queueor 
                         for(int i = 0; i < graph[curr].size(); i++) {
                             System.out.println("Adding Graph to src"+graph[curr].get(i).src+"And For Destination is "+graph[curr].get(i).dest);
-                        q.add(graph[curr].get(i).dest);
+                            q.add(graph[curr].get(i).dest);
+                        }
+                        
                     }
-                   
-                }
-            } 
-    }
-    
-    public void dfs(ArrayList<Edge> graph[],boolean visited){
-        if (visited) {
+                } 
+            }
             
+            public void dfs(ArrayList<Edge> graph[],int curr,boolean visited[]){
+                
+                System.out.println(curr);
+                visited[curr]=true;
+                for (int i = 0; i < graph[curr].size(); i++) {
+                    int e=graph[curr].get(i).dest;
+                    System.out.println("Adding Graph to src"+graph[curr].get(i).src+"And For Destination is "+graph[curr].get(i).dest);
+                    if (visited[e]==false) {
+                        dfs(graph,e , visited);
+            }
         }
     }
 
@@ -75,7 +82,9 @@ public class graph {
         ArrayList<Edge> graph[]=new ArrayList[vertex];
         graph gh=new graph();
         gh.createGraph(graph, vertex);
-        gh.bfs(graph);
+        // gh.bfs(graph);
+        boolean visited[]=new boolean[vertex];
+        gh.dfs(graph,0, visited);
         for (int i = 0; i < graph[1].size(); i++) {
             System.out.print(graph[1].get(i).dest+" ");
         }

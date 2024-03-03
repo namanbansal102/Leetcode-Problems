@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class graph {
     class Edge{
@@ -40,6 +41,8 @@ public class graph {
         // graph[5].add(new Edge(5, 6));
         
         // graph[6].add(new Edge(6, 5));
+
+
         graph[0].add(new Edge(0, 1));
 
         graph[2].add(new Edge(2,1 ));
@@ -48,6 +51,18 @@ public class graph {
         graph[3].add(new Edge(3, 4));
 
         graph[4].add(new Edge(4, 2));
+
+
+        // graph[2].add(new Edge(2, 3));
+
+        // graph[3].add(new Edge(3, 1));
+
+        // graph[4].add(new Edge(4, 0));
+        // graph[4].add(new Edge(4, 1));
+
+        // graph[5].add(new Edge(5, 0));
+        // graph[5].add(new Edge(5, 2));
+        
     }
     public void bfs(ArrayList<Edge> graph[]){ 
             Queue<Integer> q=new LinkedList<>();
@@ -100,11 +115,33 @@ public class graph {
             }
         }
     }
-    public void topologicalSorting(ArrayList<Edge> graph[],int curr,boolean visited[]){
-        visited[curr]=false;
+    public void topSortUtil(ArrayList<Edge> graph[],int curr,boolean visited[],Stack<Integer> st){
+        System.out.println("Original Top Sort Util Function Runninng");
+        System.out.println("Value of Curr is:"+curr);
+        visited[curr]=true;
         for (int i = 0; i < graph[curr].size(); i++) {
+            Edge e=graph[curr].get(i);
+            System.out.println("Value of e.dest is"+e.dest);
+            if (visited[e.dest]==false) {
+                System.out.println("Value of Visitired is false");
+                topSortUtil(graph, e.dest, visited,st);
+            }
             
         }
+        st.push(curr);
+    }
+    public void topSort(ArrayList<Edge> graph[],int curr){
+        System.out.println("Top Sort Function Runninng");
+        boolean visited[]= new boolean[graph.length];
+        Stack<Integer> st=new Stack<>();
+        for (int i = 0; i < graph.length; i++) {
+            if (visited[i]==false) {
+                topSortUtil(graph, i, visited, st);
+            }
+        }
+            while (!st.isEmpty()) {
+                System.out.print(st.pop()+" ");
+            }
     }
     // Cycle Detection in Directed Graph
     public boolean cycleDetectionDirected(ArrayList<Edge> graph[],int curr,boolean visited[],boolean stack[]){
@@ -128,6 +165,9 @@ public class graph {
         return false;
         
     }
+    public  void cycleUndirectedDetect(ArrayList<Edge> graph[],int curr,int parent,boolean visited[]){
+        System.out.println("Cycle For Undirected Graph is Running");
+    }
 
     public static void main(String[] args) {
         System.out.println("Graph Data Strucutre");
@@ -139,15 +179,16 @@ public class graph {
         boolean visited[]=new boolean[vertex];
         // gh.srcToTarget(graph,0,5,"", visited);
         boolean stack[]=new boolean[vertex];
-        for (int i = 0; i < vertex; i++) {
-            if (visited[i]==false) {
-                boolean isCycle=gh.cycleDetectionDirected(graph, i, visited, stack);    
-                if (isCycle) {
-                    System.out.println("Hoorahy Cycle Present "+isCycle);
-                    break;
-                }
-            }
+        // for (int i = 0; i < vertex; i++) {
+        //     if (visited[i]==false) {
+        //         boolean isCycle=gh.cycleDetectionDirected(graph, i, visited, stack);    
+        //         if (isCycle) {
+        //             System.out.println("Hoorahy Cycle Present "+isCycle);
+        //             break;
+        //         }
+        //     }
 
-        }
+        // }
+        gh.topSort(graph, 0);
     }
 }

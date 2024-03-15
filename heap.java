@@ -10,6 +10,8 @@ public class heap {
             int temp=lst.get(x);
             lst.set(x, lst.get(parent));
             lst.set(parent, temp);
+            x=parent;
+            parent=(x-1)/2;
         }
     }
     public int peek(ArrayList<Integer> lst){
